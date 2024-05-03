@@ -1,0 +1,233 @@
+---
+title: "Transmission model"
+author: "Juan S Vargas"
+date: "4/16/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MASS)
+library(tidyverse)
+```
+
+## Prevalence of *A. caninum* in domestic dogs
+I have data on prevalence of Ancylostoma caninum in domestic dogs. We collected 110 samples in 2011/12. K. Gostic collected 92 samples, 57 from unknown individuals, 35 from 19 known individuals. In total she had 76 independent samples. 62 (82%) tested positive for A. caninum. 
+J. Johnson had samples from 18 different dogs, 12 were positive for _A. caninum_. 
+74 were positive for a strongylid, likely _A. caninum_. We can create a binomial glm to obtain confidence intervals on the estimated prevalence values combined. 
+
+```{r}
+prevdata <- read.csv('prevalences.csv')
+d <- prevdata[prevdata$host=='dog',]
+m1 <- glm(cbind(pos_samp, neg_samp)~1, family = binomial, data = prevdata[prevdata$host=='dog',])
+b <- c(coefficients(m1), confint(m1))
+exp(b)/(1+exp(b)) # expected prevalence and 95%CI
+```
+The expected prevalence in dogs is 0.742 (95% CI: 0.669-0.807), including all areas. There is no difference across areas. 
+```{r ocelot logistic model}
+m1 <- glm(prev~1, family = binomial, weights = n, data=prevdata[prevdata$host=='ocelot'&prevdata$location!='Esquinas',])
+b <- c(coefficients(m1), confint(m1))
+exp(b)/(1+exp(b))
+```
+The expected prevalence in ocelots is 25%, (6.9-52.8). For pumas it's 36.4% (18.6-57.2%).
+```{r puma logistic model}
+m1 <- glm(prev~1, family = binomial, weights = n, data=prevdata[prevdata$host=='puma',])
+b <- c(coefficients(m1), confint(m1))
+exp(b)/(1+exp(b))
+```
+
+These prevalences correspond to the presence of strongyle parasites. However, we did not find any evidence of A. caninum in wild feline samples. This can only be confirmed with molecular methods. Unfortunately, we only got good sequences from two ocelot and two puma samples, out of 8 positive puma samples, and 3 positive ocelot samples. We can use epidemiological models to gain a better understanding about the possibility of interspecific transmission.
+
+## Multispecies host-parasite model
+We create a model following the framework of Fenton et al. (2015). The model is a system with two species, who get infected with a parasite through contact with a shared pool of infectious parasite stages. This models allows estimating prevalences at equilibrium in both species, and to explore how this prevalence changes as a function of system parameters like the level of overlap and the density of hosts.
+There are two versions of the model, one with a single pool of infectious stages, and one with two specific pools with partial overlap. We will use the one with two pools. The model is described by the following system of ordinary differential equations:
+$$\begin{align*}
+\frac{dS}{dt}&=-\beta S E+\rho I\\
+\frac{dI}{dt}&=\beta S E-\rho I\\
+\frac{dE}{dt}&= \lambda_0+\lambda_1 I_1-\mu E
+\end{align*}$$
+
+For a single individual, if we assume homogeneous density and uniform movement, the frequency of encounter is a function of the density of infectious points on the landscape, their movement rate, and a detection distance. That is, if we assume the ideal gas movement. I can also get a more direct measure of contact rate. 
+
+###Parameter estimates
+
+To solve the model numerically, we need to estimate the 
+```{r}
+read_csv('ocelot_anthro_cap.csv') %>% 
+  pivot_longer(cols = starts_with('Lp'), names_to='ocelot_id', names_ptypes=list(ocelot_id=factor())) %>% 
+  filter(dog>0 | cow>0) %>% 
+  group_by(ocelot_id) %>% summarise(freq=mean(value/wk_days)) %>% 
+  ungroup() %>% summarise(mean(freq), median(freq))
+```
+The mean frequency of individual ocelots using features that dogs also use is $3.8694*10^-3$/day, median is $8.493*10^-4$.
+```{r}
+freqdata <- read_csv('ocelot_anthro_cap.csv') 
+freqdata %>% 
+  pivot_longer(cols = starts_with('Lp'), names_to='ocelot_id', names_ptypes=list(ocelot_id=factor())) %>% 
+  filter(dog>0 ) %>% 
+  group_by(ocelot_id) %>% summarise(pres=max(value>0)) %>% select(pres) %>% sum()
+```
+Of 22 ocelots identified, 18 or`r cat(round(18/22,3))` were seen at stations that also had presence of dogs or cattle.
+An estimate of the transmission coefficient would be $\beta=(0.82\times 8.5\times 10^{-4})/day$, or `r format(0.82*8.5e-4,scientific=T)`
+
+```{r}
+freqdata %>% filter(dog>0) %>% summarise(mean(dog/wk_days))
+```
+At stations where dogs pass, the frequency is high, 0.11/day, or 1 every 9 days. This is the mean, the median is 0.0372/day. If we assume a stable prevalence in dogs we can simplify the model and deal only with the visits to the common pool. The rate at which infectious feces appear in the environment available to ocelots would be the prevalence of hookworms in dogs, multiplied by the frequency of use of common trails. This is, $\lambda_1=0.742\times 0.111$, `r cat(format(0.742*0.111,digits=2,scientific=T), '/day',  sep='')`
+We also need to estimate the rate at which infectious points disappear. For this, we use the survival rate of infectious larvae in the soil. 
+Mean larval survival on grass in field conditions was 24 days (range 1-49) in the fall, 0 days in the winter (0-21), and 6.6 days over Spring/Summer (0-21) (Mark 1975). Mark (1975) also found that high temperature and rainfall favored survival. 
+According to the literature, L3 larvae enter arrested development until they encounter a host, so they can survive long periods in the soil. They are, however, susceptible to dessication (although there is experimental evidence of survival through anhydriobiosis in Trichostrongyle nematodes; Lettini et al. 2006).
+_In vitro_ larval development assays show 100% survival after 68 hours, or nearly three days (Colgrave et al. 2009). Longer term studies placed _A.caninum_ larvae in PBS medium and found a more or less linear reduction in the proportion of motile larvae able to migrate. These larvae were kept in the dark, at 22 C and survived for up to seven months (Kopp et al. 2008). There were reduction in migration ability of 50% after four months.
+An experiment with _A. ceylanicum_ in hamsters estimated an establishment/survival rate of 24%, i.e. 1/4 of larvae uptaken develop to adulthood (larvae given orally) (Ribeiro Serafim et al. 2014).
+_A. caninum_ larvae cultured in agar at 23 C. 88% were infective after 11 days, the rest were dead. Similar results at 30 C (McCoy). 
+Komiya et al (1956) kept _A. caninum_ adults _in vitro_ alive for up to 6 weeks (males) and 12 weeks (female). The mean was 4 weeks for males and seven weeks for females, under physiological conditions. They also measured fecundity, estimated at a maximum of 7600 egg/female/day. This amount decreases progressively. 
+Vicente et al. (2004) studied the epidemiology of _Ancylostoma_ in iberian lynx. 
+_Ancylostoma_ has a prepatent period estimated at 13 to 27 days. Studies in seals estimate that healthy individuals are able to clear the infection after 50 days. This is slightly lower than the survival period of adult _A. caninum in vitro_ (mean was 4 months).
+The survival of eggs was studied by Smith and Chad (1989). They determined survival and development of _A. duodenale_ and _N. americanus_ eggs at different temperatures. At 25 C, mortality rate would be 2.89E-3 /eggs/h, or 0.069/egg/d. In the same paper, the development rate was estimated as 
+
+I take data from experimental studies to estimate infectivity--the probability of infection given contact--of _Ancylostoma spp._ in cats and dogs. I took the data from three sources, Scott (1928), Herrick (1928), and Okoshi & Murata (1967). The combined data suggests that the infectivity is roughly 97% for experimentally infected dogs. This value is likely lower  
+The infectivity of _A. caninum_ in cats was studied by Scott (1928) and Okoshi & Murata (1967). Okoshi & Murata report an infectivity between 5/14 for cutaneous infection and 4/13 for oral infection. For low doses, however, infectivity was lower than 1/6 cutaneously, and lower than 1/6 orally. 
+
+```{r ODE pars}
+pars <- c(lambda0=8.2e-2, lambda=3.87e-3, beta=, mu=1/6.6, rho = 1/35)
+ODEfunc <- function(t, states, params) {
+  with(as.list(c(states, params)), {
+    # rates of change
+    dS <- -beta*S*E+rho*I
+    dI <- beta*S*E-rho*I
+    dE <- lambda0+lambda*I - mu*E
+    
+    list(c(dS, dI, dE))
+  }
+  )
+}
+
+```
+
+There is no trivial equilibrium, so long as $\lambda_0$ is not 0. The equilibrium is:
+$$
+\begin{align}
+S&=\frac{(-\lambda_0+\mu E)\rho}{E\beta\lambda_1}\\
+I&=\frac{-\lambda_0+\mu E}{\lambda_1}
+\end{align}
+$$
+The expected prevalence at equilibrium is then $\frac{\beta E}{\beta E+\rho}$
+```{r}
+b <- 1/4*3.87e-3
+r <- 1/28
+curve((b*x)/(b*x+r), 0,10)
+```
+
+For a simplified model, where the wild species does not contribute to the environmental stage pool, the prevalence at equilibrium is $\frac{\beta\lambda_0}{\beta\lambda_0+\mu\rho}$. The first term, $\beta\lambda_0$, is the product of the transmission coefficient and the rate of infectious scat deposition. Both of these will be influenced by the frequency of use of common features like trails. 
+If we set a value of $\beta=$`r cat(beta)` and a recovery rate of $\rho=$`r cat(rho)`, $\lambda_0=$`r cat(lambda0)`. The frequency that individual dogs go on trails is estimated at 0.067/day. We have to multiply this by the number of dogs in the area (~30) to obtain the rate $\lambda_0=$`r cat(0.067*30*0.742)`
+
+```{r prev plot}
+source('params2.R')
+# change beta to reflect lag between dog and ocelots visits
+deltas <- seq(0.01,2,0.05)
+altvalues <- expand.grid(b=c(beta/3,beta, beta*3),
+                         ndogs=c(18,30,50,70),
+                         dogprev=c(0.669,0.742,0.807),
+                         dogfreq=0.067,
+                         m=1/c(6.6,21),
+                         r=1/(c(4,6,12)*7)) %>% 
+  mutate(blscaled=b*ndogs*dogprev*dogfreq/(beta*lambda0),mrscaled=m*r/(mu*rho))
+g1 <- expand_grid(bl=beta*lambda0, mr=mu*rho,d1=deltas,d2=deltas) %>% mutate(peq=bl*d1/(bl*d1+mr*d2)) %>%
+  ggplot(aes(d1,d2))+geom_contour_filled(aes(z=peq))+
+  geom_text(x=1.2,y=1, label=round(beta*lambda0/(beta*lambda0+mu*rho),2), color='white')+
+  geom_point(x=1,y=1, color='white', size=2, shape=3)+
+  # geom_point(data=altvalues, aes(blscaled,mrscaled), color='white', size=2, shape=3)+
+  theme_minimal(base_size = 12)+
+  labs(x= expression(paste(beta,lambda[0])),y=expression(paste(mu,rho)),fill='Prevalence')
+  # theme(aspect.ratio = 1)
+  g1
+```
+The expected prevalence at equilibrium is: Peq=`r cat(round(beta*lambda0/(beta*lambda0+mu*rho), 2))`
+##beta estimation
+We use the records of individual ocelots to determine the mean frequency of use of trails for each. 
+```{r}
+stn_data <- read_csv("C://Users/juans/OneDrive - University of Toronto/OcelotDensity/2019StationData.csv") %>% filter(cam=="A") %>% 
+  mutate(dt = lubridate::mdy(takedown_date))
+read_csv("ocelot_record_tbl.csv") %>% 
+  mutate(Date=lubridate::mdy(Date)) %>% 
+  filter(dog_station==T) %>% 
+  group_by(Individual) %>%
+  arrange(Date, .by_group=T) %>% 
+  mutate(dtime=Date-lag(Date)) %>% 
+  left_join(stn_data, by = join_by(Station==station)) %>% 
+  add_count() %>% ungroup() %>% 
+  mutate(dtime = if_else(n==1, dt-Date, dtime)) %>% 
+  summarise(meandelta=weighted.mean(dtime, n,na.rm = T),
+            mediandelta = median(dtime, na.rm=T)) 
+  # summarise(mean_delta = mean(meandelta), se_delta = sd(meandelta)/sqrt(n()),upper_ci = mean_delta+1.96*se_delta,
+  #           lower_ci = mean_delta-1.96*se_delta)
+  # pull(meandelta) %>% as.numeric() %>% sd(na.rm=T) 
+```
+
+We estimate that individual ocelots go on trails that dogs also use with a frequency of `r cat(1/41.86)` (0.024, SD:0.030)
+```{r dog trail freq}
+camtrapR::recordTableIndividual(inDir = 'F:/2019_OcelotNet/dogs/',hasStationFolders = F, IDfrom = 'directory',cameraID = 'filename',camerasIndependent = F, minDeltaTime = 6*60, deltaTimeComparedTo = 'lastRecord',timeZone = 'America/Costa_Rica')->dogRecTbl
+dogRecTbl %>% group_by(Individual) %>% 
+  left_join(stn_data, by = join_by(Station==station)) %>% 
+  arrange(Station,Individual,Date) %>% 
+  mutate(dtime = Date-lag(Date)) %>% 
+  add_count() %>% 
+  mutate(dtime = if_else(n==1,lubridate::mdy(takedown_date)-Date,dtime)) %>% 
+  ungroup() %>% 
+  summarise(meant = mean(dtime, na.rm=T), sd = sd(dtime, na.rm=T))
+```
+Similarly, the mean frequency for dogs is 0.067. The degree of temporal overlap would then be $1/41.86/0.067=0.357$
+Both these estimates are underestimations. Another way of estimating the parameter would be to assume a base frequency, take the frequency for dogs, for example, and scale the ocelot frequency based on that, or to determine the frequency of exposure as the inverse of the mean interval between visits of ocelots and dogs. This estimate should be less biased because it is site-specific.
+We import the individual record tables for dogs and ocelots, group by station, and arrange by date.
+```{r}
+dogData <- read_csv('dog_record_tbl.csv')
+ocelotData <- read_csv('ocelot_record_tbl.csv')
+full_join(ocelotData,dogData) %>% 
+  mutate(datetime=lubridate::mdy_hms(paste(Date,Time))) %>% 
+  group_by(Station) %>% arrange(datetime, .by_group=T) 
+```
+The mean lag for each individual visit of an ocelot after a dog had passed is 11.34 days (considering only stations were dogs passed), or 34 for all stations. 
+
+Plot of all figures fig 4.
+```{r plot grid}
+cowplot::plot_grid(g1,g2,g3,g4, 
+                   labels = c('A','B','C','D'))
+```
+## model with depletion of scats
+```{r eq w/ scat depletion}
+deltas = seq(0.01,2,0.05)
+pa1 <- expand_grid(b=beta, r=rho,d1=deltas,d2=deltas, E=1.95985) %>% mutate(peq=b*E*d1/(b*E*d1+r*d2)) %>%
+  ggplot(aes(d1,d2))+geom_contour_filled(aes(z=peq))+
+  geom_text(x=1.2,y=1, aes(label=round(beta*E/(beta*E+rho),2)), color='white')+
+  geom_point(x=1,y=1, color='white', size=2, shape=3)+
+  theme_minimal(base_size = 12)+
+  labs(x= expression(beta),y=expression(rho),fill='Prevalence')
+  theme(strip.text = ele)
+```
+
+The prevalence at equilibrium varies depending on our initial conditions. Larger population sizes will deplete the scats faster and the expected prevalence is reduced. 
+```{r}
+pa2 <- ggplot(data=prevDeplN, aes(n,prev))+geom_line()+theme_classic(base_size = 14)+
+  labs(x='Population size', y='Prevalence at equilibrium')
+```
+
+## Lafferty model
+Given the model by Lafferty, the prevalence at equilibrium depends on the initial conditions. This was determined in Mathematica. The expected prevalence in the wild species is
+$$
+\frac{gjk\beta L}{gjk\beta L + \rho}
+$$
+And in the domestic species
+$$
+\frac{j\beta L}{j\beta L+\rho}
+$$
+This depends on the initial conditions, which determine the density of infectious scats in the environment, L. To obtain a prevalence of ~74% in dogs, we need a value of $\beta~=0.0032$. With this values, there should be $L=42.5414$. We estimate a prevalence in ocelots of $P_{eq}=0.038$
+```{r}
+library(tidyverse)
+expand_grid(g=seq(0,1,1e-2),k=seq(0,1,1e-2),l=42.5414) %>% mutate(peq=g*k*0.42*0.0032*42.5414/(g*k*0.42*0.0032*42.5414+1/42)) %>%
+  ggplot(aes(g,k))+geom_contour_filled(aes(z=peq))+
+  # geom_text(x=1.2,y=1, aes(label=round(beta*E/(beta*E+rho),2)), color='white')+
+  geom_point(x=0.358,y=0.046, color='white', size=2, shape=3)+
+  theme_minimal(base_size = 12)+
+  labs(x= "Overlap (g)",y="Compatibility (k)",fill='Prevalence')
+  theme(strip.text = ele)
+```
