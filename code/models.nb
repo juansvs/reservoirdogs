@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    370594,       7166]
-NotebookOptionsPosition[    366125,       7088]
-NotebookOutlinePosition[    366576,       7105]
-CellTagsIndexPosition[    366533,       7102]
+NotebookDataLength[    370486,       7162]
+NotebookOptionsPosition[    366137,       7085]
+NotebookOutlinePosition[    366568,       7102]
+CellTagsIndexPosition[    366525,       7099]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -36,117 +36,12 @@ in Ecosphere (Vargas Soto et al. 2024). \
   3.9237348566487064`*^9}},ExpressionUUID->"94512199-2816-4e28-9e67-\
 e6d7e326dc93"],
 
+Cell[CellGroupData[{
+
 Cell["Model Structure", "Subsection",
  CellChangeTimes->{{3.9237348659208736`*^9, 
   3.9237348679020615`*^9}},ExpressionUUID->"e7e86db5-a12e-4e5b-aa78-\
 0c5e4c44308d"],
-
-Cell[CellGroupData[{
-
-Cell["Parameter estimates", "Subsection",
- CellChangeTimes->{{3.9156011182167025`*^9, 
-  3.91560112333167*^9}},ExpressionUUID->"fecaa1e4-334b-45e1-9cf5-\
-44c0d79049b2"],
-
-Cell[TextData[{
- "Adult worms survive for up to six weeks in their hosts, so we estimate the \
-rate of host recovery \[Rho]=0.024 days-1 (Komiya et al. 1956). \nEggs \
-develop into larvae at a rate of 0.044/day (Foster and Daengsvang 1932). \n\
-Scat loses infecting ability as the number of live larvae in it die. We use \
-the mean survival duration of larvae, and obtain ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    SubscriptBox["\[Mu]", "L"], "=", 
-    RowBox[{"0.152", "/", "day"}]}], TraditionalForm]],ExpressionUUID->
-  "2c418b1d-a927-431f-95f9-9b01a70300bb"],
- ". Similarly, egg mortality is estimated ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    SubscriptBox["\[Mu]", "E"], "=", 
-    RowBox[{"0.069", "/", "day"}]}], TraditionalForm]],ExpressionUUID->
-  "b0858adc-384a-4fc5-b559-d696a1d3cd44"],
- ". \nThe probability of infection given contact is very high for dogs and ",
- StyleBox["A. caninum",
-  FontSlant->"Italic"],
- ", around 0.97. In contrast, the probability is <1/12 (combined oral and \
-dermal exposure) for cats exposed to this dog parasite. We scale these values \
-by 50% and obtain ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    SubscriptBox["\[Kappa]", "D"], "=", 
-    RowBox[{
-     RowBox[{"0.97", " ", "2"}], "=", "0.485"}]}], TraditionalForm]],
-  ExpressionUUID->"96304ed6-52e0-441d-8c70-14dbc4b80158"],
- " and ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    SubscriptBox["\[Kappa]", "W"], "="}], TraditionalForm]],ExpressionUUID->
-  "0799e3cc-03fd-47f8-9723-d072abcf75e0"],
- "0.042. The estimated proportion \[Sigma] of compatibility is thus ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    RowBox[{
-     SubscriptBox["\[Kappa]", "W"], "/", 
-     SubscriptBox["\[Kappa]", "D"]}], "=", 
-    RowBox[{
-     RowBox[{"0.083", "/", "0.97"}], "=", "0.086"}]}], TraditionalForm]],
-  ExpressionUUID->"8d2c2026-74ea-4505-b25f-899f20d509c9"],
- ".\nThe cat defecation rate was taken from a study of leopards, and is \
-estimated at ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    SubscriptBox["\[Lambda]", "W"], "=", 
-    RowBox[{"1.667", "/", "day"}]}], TraditionalForm]],ExpressionUUID->
-  "fb9edd3f-3e8a-41b2-bd4e-2659702b785c"],
- ".\nIn a study of rural dogs in cacao plantations, 10 dogs were observed for \
-six days each, and 87 defecation events were observed (dos Santos et al. \
-2018. J. Mamm. 99:1261). The estimate defecation rate is then ",
- Cell[BoxData[
-  FormBox[
-   RowBox[{
-    SubscriptBox["\[Lambda]", "D"], "=", 
-    RowBox[{
-     RowBox[{"82", "/", 
-      RowBox[{"(", 
-       RowBox[{"10", " ", "6"}], ")"}]}], "="}]}], TraditionalForm]],
-  ExpressionUUID->"3052d127-e210-4507-925d-cf682aaafd53"],
- "1.37. \nFInally, the coefficient of overlap was estimated as \[Omega]=0.358 \
-based on camera-trap surveys. This estimate was based on frequencies of use \
-of trails of 0.024/day for ocelots, and 0.067/day for dogs. These were likely \
-overestimates. I have corrected the calculation, and obtained frequencies of \
-0.087/day for dogs, and 0.22 for ocelots. I use the value for ocelots as the \
-x value in the contour plots. This assumes that about 1/5 of ocelot \
-interactions with scat, be it depositing or picking up, will occur on \
-\[OpenCurlyDoubleQuote]domestic\[CloseCurlyDoubleQuote] habitats. This is \
-likely higher than the true value. "
-}], "Text",
- CellChangeTimes->{{3.915601375954877*^9, 3.9156015619329925`*^9}, {
-  3.915606776413438*^9, 3.9156070979837155`*^9}, {3.915607131255624*^9, 
-  3.915607132894107*^9}, {3.915607790799368*^9, 3.915607863593835*^9}, {
-  3.9156079409222116`*^9, 3.915607996849804*^9}, {3.9156081091817317`*^9, 
-  3.915608115106748*^9}, {3.915608696424741*^9, 3.915608699808675*^9}, {
-  3.9156088032117615`*^9, 3.9156088754560103`*^9}, {3.9156089142894583`*^9, 
-  3.9156089240334682`*^9}, {3.91560897369448*^9, 3.915609077812477*^9}, {
-  3.915609113801324*^9, 3.915609152737397*^9}, {3.9161971250171747`*^9, 
-  3.916197130258483*^9}, {3.9161971836106195`*^9, 3.9161972696578703`*^9}, {
-  3.9161973757603407`*^9, 
-  3.916197455792513*^9}},ExpressionUUID->"ec5cfb23-4251-4828-8fc2-\
-cbdc6593a68d"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Model with parallel pools", "Section",
- CellChangeTimes->{{3.915697078763984*^9, 3.915697081312834*^9}, {
-  3.9157669865179987`*^9, 
-  3.9157669888441963`*^9}},ExpressionUUID->"aea505d9-b1b0-416f-8d91-\
-15a5d1f49b65"],
 
 Cell["\<\
 In our model, there are two separate pools of infectious stages, one mostly \
@@ -349,7 +244,7 @@ Cell[TextData[Cell[BoxData[{
      SubscriptBox["L", "N"], 
      SubscriptBox["\[Kappa]", "W"], 
      SubscriptBox["S", "W"]}]}]}], 
-  TraditionalForm]}],ExpressionUUID->"129dd88a-cfbe-41e9-a181-7f0fa3b70f9c"]],\
+  TraditionalForm]}],ExpressionUUID->"56bb919d-d78b-4055-8c63-50b0c617cac2"]],\
  "Text",
  CellChangeTimes->{{3.915697159023967*^9, 3.915697226135047*^9}, {
   3.9156972918770447`*^9, 3.9156974567178316`*^9}, {3.915697506718423*^9, 
@@ -372,11 +267,111 @@ proportion for wild hosts in the human-modified pool is low. \
  CellChangeTimes->{{3.9157699098255424`*^9, 3.915770063175063*^9}, {
   3.915770104868866*^9, 3.9157701449535894`*^9}, {3.923735193059555*^9, 
   3.923735213950898*^9}},ExpressionUUID->"f9df811c-1d86-40b3-aa05-\
-095efb8c04c6"],
+095efb8c04c6"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Estimation of \[Beta]", "Subsubsection",
+Cell["Parameter estimates", "Subsection",
+ CellChangeTimes->{{3.9156011182167025`*^9, 
+  3.91560112333167*^9}},ExpressionUUID->"fecaa1e4-334b-45e1-9cf5-\
+44c0d79049b2"],
+
+Cell[TextData[{
+ "Adult worms survive for up to six weeks in their hosts, so we estimate the \
+rate of host recovery \[Rho]=0.024 days-1 (Komiya et al. 1956). \nEggs \
+develop into larvae at a rate of 0.044/day (Foster and Daengsvang 1932). \n\
+Scat loses infecting ability as the number of live larvae in it die. We use \
+the mean survival duration of larvae, and obtain ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Mu]", "L"], "=", 
+    RowBox[{"0.152", "/", "day"}]}], TraditionalForm]],ExpressionUUID->
+  "2c418b1d-a927-431f-95f9-9b01a70300bb"],
+ ". Similarly, egg mortality is estimated ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Mu]", "E"], "=", 
+    RowBox[{"0.069", "/", "day"}]}], TraditionalForm]],ExpressionUUID->
+  "b0858adc-384a-4fc5-b559-d696a1d3cd44"],
+ ". \nThe probability of infection given contact is very high for dogs and ",
+ StyleBox["A. caninum",
+  FontSlant->"Italic"],
+ ", around 0.97. In contrast, the probability is <1/12 (combined oral and \
+dermal exposure) for cats exposed to this dog parasite. We scale these values \
+by 50% and obtain ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Kappa]", "D"], "=", 
+    RowBox[{
+     RowBox[{"0.97", " ", "2"}], "=", "0.485"}]}], TraditionalForm]],
+  ExpressionUUID->"96304ed6-52e0-441d-8c70-14dbc4b80158"],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Kappa]", "W"], "="}], TraditionalForm]],ExpressionUUID->
+  "0799e3cc-03fd-47f8-9723-d072abcf75e0"],
+ "0.042. The estimated proportion \[Sigma] of compatibility is thus ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[Kappa]", "W"], "/", 
+     SubscriptBox["\[Kappa]", "D"]}], "=", 
+    RowBox[{
+     RowBox[{"0.083", "/", "0.97"}], "=", "0.086"}]}], TraditionalForm]],
+  ExpressionUUID->"8d2c2026-74ea-4505-b25f-899f20d509c9"],
+ ".\nThe cat defecation rate was taken from a study of leopards, and is \
+estimated at ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Lambda]", "W"], "=", 
+    RowBox[{"1.667", "/", "day"}]}], TraditionalForm]],ExpressionUUID->
+  "fb9edd3f-3e8a-41b2-bd4e-2659702b785c"],
+ ".\nIn a study of rural dogs in cacao plantations, 10 dogs were observed for \
+six days each, and 87 defecation events were observed (dos Santos et al. \
+2018. J. Mamm. 99:1261). The estimate defecation rate is then ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Lambda]", "D"], "=", 
+    RowBox[{
+     RowBox[{"82", "/", 
+      RowBox[{"(", 
+       RowBox[{"10", " ", "6"}], ")"}]}], "="}]}], TraditionalForm]],
+  ExpressionUUID->"3052d127-e210-4507-925d-cf682aaafd53"],
+ "1.37. \nFInally, the coefficient of overlap was estimated as \[Omega]=0.358 \
+based on camera-trap surveys. This estimate was based on frequencies of use \
+of trails of 0.024/day for ocelots, and 0.067/day for dogs. These were likely \
+overestimates. I have corrected the calculation, and obtained frequencies of \
+0.087/day for dogs, and 0.22 for ocelots. I use the value for ocelots as the \
+x value in the contour plots. This assumes that about 1/5 of ocelot \
+interactions with scat, be it depositing or picking up, will occur on \
+\[OpenCurlyDoubleQuote]domestic\[CloseCurlyDoubleQuote] habitats. This is \
+likely higher than the true value. "
+}], "Text",
+ CellChangeTimes->{{3.915601375954877*^9, 3.9156015619329925`*^9}, {
+  3.915606776413438*^9, 3.9156070979837155`*^9}, {3.915607131255624*^9, 
+  3.915607132894107*^9}, {3.915607790799368*^9, 3.915607863593835*^9}, {
+  3.9156079409222116`*^9, 3.915607996849804*^9}, {3.9156081091817317`*^9, 
+  3.915608115106748*^9}, {3.915608696424741*^9, 3.915608699808675*^9}, {
+  3.9156088032117615`*^9, 3.9156088754560103`*^9}, {3.9156089142894583`*^9, 
+  3.9156089240334682`*^9}, {3.91560897369448*^9, 3.915609077812477*^9}, {
+  3.915609113801324*^9, 3.915609152737397*^9}, {3.9161971250171747`*^9, 
+  3.916197130258483*^9}, {3.9161971836106195`*^9, 3.9161972696578703`*^9}, {
+  3.9161973757603407`*^9, 
+  3.916197455792513*^9}},ExpressionUUID->"ec5cfb23-4251-4828-8fc2-\
+cbdc6593a68d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Estimation of \[Beta]", "Subsection",
  CellChangeTimes->{{3.9157806285709887`*^9, 3.9157806383567977`*^9}, {
   3.923735222130395*^9, 
   3.923735225939739*^9}},ExpressionUUID->"b2fadf69-6cf0-457e-be41-\
@@ -847,8 +842,7 @@ the maximum prevalence in dogs (74%) is \[Beta]=0.0050. \
   3.916197616712472*^9}, {3.922849291375622*^9, 3.9228493596853704`*^9}, {
   3.9237357494374604`*^9, 
   3.9237357653174934`*^9}},ExpressionUUID->"e56d5bf2-94bd-4ad8-b484-\
-cc6646bf57da"]
-}, Open  ]],
+cc6646bf57da"],
 
 Cell[CellGroupData[{
 
@@ -3427,7 +3421,7 @@ Cell[BoxData[
    3.922850405541086*^9, 3.922850427468895*^9}, {3.922872398175638*^9, 
    3.9228724009204154`*^9}, 3.9231118389590874`*^9, {3.9231122565429077`*^9, 
    3.9231122807230253`*^9}, {3.923122848686929*^9, 3.923122854213688*^9}},
- CellLabel->"In[9]:=",ExpressionUUID->"37eac5a7-b067-4694-9c0c-9076a0dab381"],
+ CellLabel->"In[1]:=",ExpressionUUID->"37eac5a7-b067-4694-9c0c-9076a0dab381"],
 
 Cell[CellGroupData[{
 
@@ -5691,7 +5685,7 @@ Cell[BoxData[
   RowBox[{"Export", "[", 
    RowBox[{
    "\"\<C:\\\\Users\\\\juans\\\\OneDrive - University of Toronto\\\\Feline \
-Parasite Chapter\\\\Fig4_PeqContPlot_mod-b.pdf\>\"", ",", 
+Parasite Chapter\\\\Fig4_PeqContPlot_mod-a.pdf\>\"", ",", 
     "\[IndentingNewLine]", 
     RowBox[{"With", "[", 
      RowBox[{
@@ -5710,7 +5704,7 @@ Parasite Chapter\\\\Fig4_PeqContPlot_mod-b.pdf\>\"", ",",
               RowBox[{"Iw", "[", "finalt", "]"}], "+", 
               RowBox[{"Sw", "[", "finalt", "]"}]}], ")"}]}], "/.", 
            RowBox[{"ndsolk", "[", 
-            RowBox[{"\[Omega]w", ",", "0.7", ",", "\[Sigma]"}], "]"}]}], ",", 
+            RowBox[{"\[Omega]w", ",", "1", ",", "\[Sigma]"}], "]"}]}], ",", 
           RowBox[{"{", 
            RowBox[{"\[Omega]w", ",", "0.0", ",", "0.5"}], "}"}], ",", 
           RowBox[{"{", 
@@ -5746,7 +5740,7 @@ Parasite Chapter\\\\Fig4_PeqContPlot_mod-b.pdf\>\"", ",",
               RowBox[{"Iw", "[", "finalt", "]"}], "+", 
               RowBox[{"Sw", "[", "finalt", "]"}]}], ")"}]}], "/.", 
            RowBox[{"ndsolk", "[", 
-            RowBox[{"\[Omega]w", ",", "0.7", ",", "\[Sigma]"}], "]"}]}], ",", 
+            RowBox[{"\[Omega]w", ",", "1", ",", "\[Sigma]"}], "]"}]}], ",", 
           RowBox[{"{", 
            RowBox[{"\[Omega]w", ",", "0.0", ",", "0.5"}], "}"}], ",", 
           RowBox[{"{", 
@@ -5776,7 +5770,7 @@ Parasite Chapter\\\\Fig4_PeqContPlot_mod-b.pdf\>\"", ",",
               RowBox[{"Iw", "[", "finalt", "]"}], "+", 
               RowBox[{"Sw", "[", "finalt", "]"}]}], ")"}]}], "/.", 
            RowBox[{"ndsolk", "[", 
-            RowBox[{"\[Omega]w", ",", "0.7", ",", "\[Sigma]"}], "]"}]}], ",", 
+            RowBox[{"\[Omega]w", ",", "1", ",", "\[Sigma]"}], "]"}]}], ",", 
           RowBox[{"{", 
            RowBox[{"\[Omega]w", ",", "0.0", ",", "0.5"}], "}"}], ",", 
           RowBox[{"{", 
@@ -5823,9 +5817,11 @@ Parasite Chapter\\\\Fig4_PeqContPlot_mod-b.pdf\>\"", ",",
    3.922873312991112*^9, 3.922873332814031*^9}, 3.9228746532716074`*^9, 
    3.9231125266437387`*^9, {3.9231125605881166`*^9, 3.923112580412842*^9}, {
    3.9231135333038936`*^9, 3.9231135662653627`*^9}, {3.9231231402216115`*^9, 
-   3.9231231761180983`*^9}},
- CellLabel->
-  "In[123]:=",ExpressionUUID->"69f77efa-2e8e-4736-a446-5dde253ccbcd"],
+   3.9231231761180983`*^9}, {3.9241487927493625`*^9, 3.924148793225995*^9}, {
+   3.9241488306811466`*^9, 3.924148836430976*^9}, {3.924149050385598*^9, 
+   3.9241490510186033`*^9}, {3.9241516245150557`*^9, 
+   3.9241516291744294`*^9}},ExpressionUUID->"69f77efa-2e8e-4736-a446-\
+5dde253ccbcd"],
 
 Cell["\<\
 Host compatibility could drastically change the expected prevalence, and we \
@@ -5853,9 +5849,10 @@ dogs contribute to the wild pool. \
 
 Cell[CellGroupData[{
 
-Cell["Parallel pools", "Subsubsection",
- CellChangeTimes->{{3.915780444337385*^9, 
-  3.9157804471213245`*^9}},ExpressionUUID->"5c0415cf-38be-4f0a-a2e0-\
+Cell["Scenario 2: Parasite of cats", "Subsubsection",
+ CellChangeTimes->{{3.915780444337385*^9, 3.9157804471213245`*^9}, {
+  3.9241487518715873`*^9, 
+  3.9241487574513025`*^9}},ExpressionUUID->"5c0415cf-38be-4f0a-a2e0-\
 e0b8eb72c439"],
 
 Cell[TextData[{
@@ -7086,8 +7083,8 @@ behavior. "
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1440., 741.75},
-WindowMargins->{{Automatic, -4.7999999999999545`}, {Automatic, -6}},
+WindowSize->{1428., 735.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 Magnification:>0.8 Inherited,
 FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (June 19, 2020)",
 StyleDefinitions->"Default.nb",
@@ -7107,64 +7104,63 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 159, 3, 55, "Chapter",ExpressionUUID->"212fc349-efa3-4bda-b2ab-6dcdba085554"],
 Cell[742, 27, 469, 9, 27, "Text",ExpressionUUID->"94512199-2816-4e28-9e67-e6d7e326dc93"],
-Cell[1214, 38, 167, 3, 43, "Subsection",ExpressionUUID->"e7e86db5-a12e-4e5b-aa78-0c5e4c44308d"],
 Cell[CellGroupData[{
-Cell[1406, 45, 168, 3, 31, "Subsection",ExpressionUUID->"fecaa1e4-334b-45e1-9cf5-44c0d79049b2"],
-Cell[1577, 50, 4056, 89, 183, "Text",ExpressionUUID->"ec5cfb23-4251-4828-8fc2-cbdc6593a68d"]
+Cell[1236, 40, 167, 3, 43, "Subsection",ExpressionUUID->"e7e86db5-a12e-4e5b-aa78-0c5e4c44308d"],
+Cell[1406, 45, 756, 13, 44, "Text",ExpressionUUID->"dae75f87-859d-40a4-8c95-8579f73ac3df"],
+Cell[2165, 60, 6192, 197, 159, "Text",ExpressionUUID->"891ed504-171b-4f7d-a6e8-dafc815ef8d4"],
+Cell[8360, 259, 618, 10, 44, "Text",ExpressionUUID->"f9df811c-1d86-40b3-aa05-095efb8c04c6"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5670, 144, 223, 4, 53, "Section",ExpressionUUID->"aea505d9-b1b0-416f-8d91-15a5d1f49b65"],
-Cell[5896, 150, 756, 13, 44, "Text",ExpressionUUID->"dae75f87-859d-40a4-8c95-8579f73ac3df"],
-Cell[6655, 165, 6192, 197, 159, "Text",ExpressionUUID->"891ed504-171b-4f7d-a6e8-dafc815ef8d4"],
-Cell[12850, 364, 618, 10, 44, "Text",ExpressionUUID->"f9df811c-1d86-40b3-aa05-095efb8c04c6"],
-Cell[CellGroupData[{
-Cell[13493, 378, 225, 4, 35, "Subsubsection",ExpressionUUID->"b2fadf69-6cf0-457e-be41-14db9696f3f1"],
-Cell[13721, 384, 951, 23, 44, "Text",ExpressionUUID->"49ed3dee-dfcc-4f12-b100-d1bea7267efa"],
-Cell[CellGroupData[{
-Cell[14697, 411, 12823, 288, 302, "Input",ExpressionUUID->"a326b2b1-c7ee-4e2f-b6f9-c360ba50b48a"],
-Cell[27523, 701, 6964, 136, 209, "Output",ExpressionUUID->"48c8703a-3eb5-4869-aa45-01ef814bbcea"]
-}, Open  ]],
-Cell[34502, 840, 489, 9, 27, "Text",ExpressionUUID->"e56d5bf2-94bd-4ad8-b484-cc6646bf57da"]
+Cell[9015, 274, 168, 3, 43, "Subsection",ExpressionUUID->"fecaa1e4-334b-45e1-9cf5-44c0d79049b2"],
+Cell[9186, 279, 4056, 89, 183, "Text",ExpressionUUID->"ec5cfb23-4251-4828-8fc2-cbdc6593a68d"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[35028, 854, 232, 4, 35, "Subsubsection",ExpressionUUID->"f0f2181c-3f8a-4c2d-9236-c6daa1ba632c"],
-Cell[35263, 860, 973, 26, 27, "Text",ExpressionUUID->"98e0bad0-15d3-4250-8cee-b4606d3ae713"],
+Cell[13279, 373, 222, 4, 43, "Subsection",ExpressionUUID->"b2fadf69-6cf0-457e-be41-14db9696f3f1"],
+Cell[13504, 379, 951, 23, 44, "Text",ExpressionUUID->"49ed3dee-dfcc-4f12-b100-d1bea7267efa"],
 Cell[CellGroupData[{
-Cell[36261, 890, 13594, 302, 438, "Input",ExpressionUUID->"ed2c515a-ef9f-43d8-a54b-3b4ed1dc480c"],
-Cell[49858, 1194, 33224, 601, 275, "Output",ExpressionUUID->"13eae1be-c7ac-4297-bca8-f10b86e9340a"]
+Cell[14480, 406, 12823, 288, 302, "Input",ExpressionUUID->"a326b2b1-c7ee-4e2f-b6f9-c360ba50b48a"],
+Cell[27306, 696, 6964, 136, 209, "Output",ExpressionUUID->"48c8703a-3eb5-4869-aa45-01ef814bbcea"]
+}, Open  ]],
+Cell[34285, 835, 489, 9, 27, "Text",ExpressionUUID->"e56d5bf2-94bd-4ad8-b484-cc6646bf57da"],
+Cell[CellGroupData[{
+Cell[34799, 848, 232, 4, 35, "Subsubsection",ExpressionUUID->"f0f2181c-3f8a-4c2d-9236-c6daa1ba632c"],
+Cell[35034, 854, 973, 26, 27, "Text",ExpressionUUID->"98e0bad0-15d3-4250-8cee-b4606d3ae713"],
+Cell[CellGroupData[{
+Cell[36032, 884, 13594, 302, 438, "Input",ExpressionUUID->"ed2c515a-ef9f-43d8-a54b-3b4ed1dc480c"],
+Cell[49629, 1188, 33224, 601, 275, "Output",ExpressionUUID->"13eae1be-c7ac-4297-bca8-f10b86e9340a"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[83131, 1801, 234, 4, 35, "Subsubsection",ExpressionUUID->"e5dd8398-9b20-496d-8323-a44dd058f0cd"],
-Cell[83368, 1807, 956, 18, 44, "Text",ExpressionUUID->"455b025a-b604-4281-874d-c6616b71d282"],
+Cell[82902, 1795, 234, 4, 35, "Subsubsection",ExpressionUUID->"e5dd8398-9b20-496d-8323-a44dd058f0cd"],
+Cell[83139, 1801, 956, 18, 44, "Text",ExpressionUUID->"455b025a-b604-4281-874d-c6616b71d282"],
 Cell[CellGroupData[{
-Cell[84349, 1829, 15656, 375, 550, "Input",ExpressionUUID->"d0159297-fb0f-4e4f-8cfe-faa424d1182a"],
-Cell[100008, 2206, 517, 11, 19, "Message",ExpressionUUID->"fbd813b5-b5c5-4445-8ca6-7e0bef2ee783"],
-Cell[100528, 2219, 53393, 928, 322, "Output",ExpressionUUID->"8983774f-51a1-47a6-b269-2a0a41483326"]
+Cell[84120, 1823, 15656, 375, 550, "Input",ExpressionUUID->"d0159297-fb0f-4e4f-8cfe-faa424d1182a"],
+Cell[99779, 2200, 517, 11, 19, "Message",ExpressionUUID->"fbd813b5-b5c5-4445-8ca6-7e0bef2ee783"],
+Cell[100299, 2213, 53393, 928, 322, "Output",ExpressionUUID->"8983774f-51a1-47a6-b269-2a0a41483326"]
 }, Open  ]],
-Cell[153936, 3150, 556, 11, 27, "Text",ExpressionUUID->"e485edba-257d-4aef-ba2e-76fdd89c8e94"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[154529, 3166, 188, 3, 35, "Subsubsection",ExpressionUUID->"f66c8c21-16cf-4535-8103-01833023d448"],
-Cell[154720, 3171, 1076, 22, 44, "Text",ExpressionUUID->"afeea9a2-2c9e-4f27-89fb-ff90fb8786c6"],
-Cell[155799, 3195, 9754, 234, 263, "Input",ExpressionUUID->"37eac5a7-b067-4694-9c0c-9076a0dab381"],
-Cell[CellGroupData[{
-Cell[165578, 3433, 5337, 125, 311, "Input",ExpressionUUID->"0fa11b01-e6a6-423e-99af-58769ca14604"],
-Cell[170918, 3560, 125234, 2125, 325, "Output",ExpressionUUID->"7c4568e6-7b3d-4df7-9552-88926195e590"]
-}, Open  ]],
-Cell[296167, 5688, 6313, 139, 342, "Input",ExpressionUUID->"69f77efa-2e8e-4736-a446-5dde253ccbcd"],
-Cell[302483, 5829, 1392, 21, 79, "Text",ExpressionUUID->"b8c9e1fb-1b46-4c0b-9a8f-41679c55c4c9"]
+Cell[153707, 3144, 556, 11, 27, "Text",ExpressionUUID->"e485edba-257d-4aef-ba2e-76fdd89c8e94"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[303912, 5855, 167, 3, 35, "Subsubsection",ExpressionUUID->"5c0415cf-38be-4f0a-a2e0-e0b8eb72c439"],
-Cell[304082, 5860, 1920, 40, 79, "Text",ExpressionUUID->"ed46d326-df00-4383-81fa-9f9e752b65ea"],
-Cell[306005, 5902, 12981, 276, 279, "Input",ExpressionUUID->"2a4bb800-d508-43c8-aea6-2b67e11a139d"],
+Cell[154300, 3160, 188, 3, 35, "Subsubsection",ExpressionUUID->"f66c8c21-16cf-4535-8103-01833023d448"],
+Cell[154491, 3165, 1076, 22, 44, "Text",ExpressionUUID->"afeea9a2-2c9e-4f27-89fb-ff90fb8786c6"],
+Cell[155570, 3189, 9754, 234, 263, "Input",ExpressionUUID->"37eac5a7-b067-4694-9c0c-9076a0dab381"],
 Cell[CellGroupData[{
-Cell[319011, 6182, 5369, 127, 295, "Input",ExpressionUUID->"595f5458-7eee-4f9d-b06f-178deb446c04"],
-Cell[324383, 6311, 34200, 606, 297, "Output",ExpressionUUID->"700cb4fe-cbec-4ebc-bfc7-3dae19afc4b6"]
+Cell[165349, 3427, 5337, 125, 311, "Input",ExpressionUUID->"0fa11b01-e6a6-423e-99af-58769ca14604"],
+Cell[170689, 3554, 125234, 2125, 325, "Output",ExpressionUUID->"7c4568e6-7b3d-4df7-9552-88926195e590"]
 }, Open  ]],
-Cell[358598, 6920, 6018, 136, 295, "Input",ExpressionUUID->"3bba36c2-5822-482b-ac79-da93975554be"],
-Cell[364619, 7058, 1466, 25, 79, "Text",ExpressionUUID->"662f957f-7c7a-4b9e-854f-4d552ce2743b"]
+Cell[295938, 5682, 6487, 141, 342, "Input",ExpressionUUID->"69f77efa-2e8e-4736-a446-5dde253ccbcd"],
+Cell[302428, 5825, 1392, 21, 79, "Text",ExpressionUUID->"b8c9e1fb-1b46-4c0b-9a8f-41679c55c4c9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[303857, 5851, 234, 4, 35, "Subsubsection",ExpressionUUID->"5c0415cf-38be-4f0a-a2e0-e0b8eb72c439"],
+Cell[304094, 5857, 1920, 40, 79, "Text",ExpressionUUID->"ed46d326-df00-4383-81fa-9f9e752b65ea"],
+Cell[306017, 5899, 12981, 276, 279, "Input",ExpressionUUID->"2a4bb800-d508-43c8-aea6-2b67e11a139d"],
+Cell[CellGroupData[{
+Cell[319023, 6179, 5369, 127, 295, "Input",ExpressionUUID->"595f5458-7eee-4f9d-b06f-178deb446c04"],
+Cell[324395, 6308, 34200, 606, 297, "Output",ExpressionUUID->"700cb4fe-cbec-4ebc-bfc7-3dae19afc4b6"]
+}, Open  ]],
+Cell[358610, 6917, 6018, 136, 295, "Input",ExpressionUUID->"3bba36c2-5822-482b-ac79-da93975554be"],
+Cell[364631, 7055, 1466, 25, 79, "Text",ExpressionUUID->"662f957f-7c7a-4b9e-854f-4d552ce2743b"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
