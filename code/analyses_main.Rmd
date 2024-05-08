@@ -81,18 +81,11 @@ dogRecTbl %>% group_by(Individual) %>%
 ```
 Similarly, the mean frequency for dogs is 0.088. 
 
-```{r}
-freqdata <- read_csv('ocelot_anthro_cap.csv') 
-freqdata %>% 
-  pivot_longer(cols = starts_with('Lp'), names_to='ocelot_id', names_ptypes=list(ocelot_id=factor())) %>% 
-  filter(dog>0 ) %>% 
-  group_by(ocelot_id) %>% summarise(pres=max(value>0)) %>% select(pres) %>% sum()
-```
-Of 22 ocelots identified, 18 or`r cat(round(18/22,3))` were seen at stations that also had presence of dogs or cattle.
 
 ```{r}
 freqdata %>% filter(dog>0) %>% summarise(mean(dog/wk_days))
 ```
+
 At stations where dogs pass, the frequency is high, 0.11/day, or 1 every 9 days. This is the mean, the median is 0.0372/day. If we assume a stable prevalence in dogs we can simplify the model and deal only with the visits to the common pool. The rate at which infectious feces appear in the environment available to ocelots would be the prevalence of hookworms in dogs, multiplied by the frequency of use of common trails. This is, $\lambda_1=0.742\times 0.111$, `r cat(format(0.742*0.111,digits=2,scientific=T), '/day',  sep='')`
 We also need to estimate the rate at which infectious points disappear. For this, we use the survival rate of infectious larvae in the soil. 
 Mean larval survival on grass in field conditions was 24 days (range 1-49) in the fall, 0 days in the winter (0-21), and 6.6 days over Spring/Summer (0-21) (Mark 1975). Mark (1975) also found that high temperature and rainfall favored survival. 
